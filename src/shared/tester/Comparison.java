@@ -23,6 +23,7 @@ public class Comparison {
         if (expected.size() != actual.size()) {
             throw new RuntimeException("Something is wrong.  Expected data and actual data sizes are not the same.");
         }
+
         if (null == expected.getLabel() && null == actual.getLabel()) {
             // Do nothing. This is OK.
         } else if (expected.getLabel().size() != actual.getLabel().size()) {
