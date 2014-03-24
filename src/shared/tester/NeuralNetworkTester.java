@@ -12,7 +12,7 @@ import func.nn.NeuralNetwork;
  * @author Jesse Rosalia (https://www.github.com/theJenix)
  * @date 2013-03-05
  */
-public class NeuralNetworkTester implements Tester {
+public class NeuralNetworkTester extends Tester {
 
     private NeuralNetwork network;
     private TestMetric[] metrics;
