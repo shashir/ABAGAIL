@@ -29,19 +29,20 @@ public class NeuralNetworkTester extends Tester {
             network.setInputValues(instances[i].getData());
             network.run();
 
-            Instance expected = instances[i].getLabel();
-            Instance actual   = new Instance(network.getOutputValues());
+            Instance expected = instances[i];
+            Instance actual   = new Instance(instances[i].getData(),
+                    new Instance(Math.round(network.getOutputValues().get(0))));
 
             //collapse the values, for statistics reporting
             //NOTE: assumes discrete labels, with n output nodes for n
             // potential labels, and an activation function that outputs
             // values between 0 and 1.
-            Instance expectedOne = DataSetLabelBinarySeperator.combineLabels(expected);
-            Instance actualOne   = DataSetLabelBinarySeperator.combineLabels(actual);
+            // Instance expectedOne = DataSetLabelBinarySeperator.combineLabels(expected);
+            // Instance actualOne   = DataSetLabelBinarySeperator.combineLabels(actual);
 
             //run this result past all of the available test metrics
             for (TestMetric metric : metrics) {
-                metric.addResult(expectedOne, actualOne);
+                metric.addResult(expected, actual);
             }
         }
     }

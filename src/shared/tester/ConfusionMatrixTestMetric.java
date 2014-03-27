@@ -168,7 +168,6 @@ public class ConfusionMatrixTestMetric extends TestMetric {
         }
         return found;
     }
-    
 
     /**
      * 
