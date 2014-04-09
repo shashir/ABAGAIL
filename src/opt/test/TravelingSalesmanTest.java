@@ -33,7 +33,7 @@ import shared.FixedIterationTrainer;
  */
 public class TravelingSalesmanTest {
     /** The n value */
-    private static final int N = 50;
+    private static final int N = 40;
     /**
      * The test main
      * @param args ignored
@@ -79,7 +79,7 @@ public class TravelingSalesmanTest {
         ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);
         
         MIMIC mimic = new MIMIC(200, 100, pop);
-        fit = new FixedIterationTrainer(mimic, 1000);
+        fit = new FixedIterationTrainer(mimic, 3000);
         fit.train();
         System.out.println(ef.value(mimic.getOptimal()));
         

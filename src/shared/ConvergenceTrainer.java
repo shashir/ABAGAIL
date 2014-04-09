@@ -1,4 +1,7 @@
 package shared;
+
+import opt.RandomRestartHillClimbing;
+
 /**
  * A convergence trainer trains a network
  * until convergence, using another trainer
@@ -32,6 +35,11 @@ public class ConvergenceTrainer implements Trainer {
     private int maxIterations;
 
     /**
+     * The minimum number of iterations to use
+     */
+    private int minIterations;
+
+    /**
      * Create a new convergence trainer
      * @param trainer the thrainer to use
      * @param threshold the error threshold
@@ -42,6 +50,21 @@ public class ConvergenceTrainer implements Trainer {
         this.trainer = trainer;
         this.threshold = threshold;
         this.maxIterations = maxIterations;
+    }
+
+    /**
+     * Create a new convergence trainer
+     * @param trainer the thrainer to use
+     * @param threshold the error threshold
+     * @param maxIterations the maximum iterations
+     * @param minIterations the minimum iterations
+     */
+    public ConvergenceTrainer(Trainer trainer,
+            double threshold, int maxIterations, int minIterations) {
+        this.trainer = trainer;
+        this.threshold = threshold;
+        this.maxIterations = maxIterations;
+        this.minIterations = minIterations;
     }
     
 
@@ -63,8 +86,13 @@ public class ConvergenceTrainer implements Trainer {
            iterations++;
            lastError = error;
            error = trainer.train();
-        } while (Math.abs(error - lastError) > threshold
-             && iterations < maxIterations);
+           if (trainer instanceof RandomRestartHillClimbing) {
+               ((RandomRestartHillClimbing) trainer).restart(error);
+               error = 1; // never converge
+           }
+        } while ((Math.abs(error - lastError) > threshold
+             && iterations < maxIterations)
+             || iterations < minIterations);
         return error;
     }
     

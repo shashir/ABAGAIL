@@ -61,6 +61,40 @@ public class NeuralNetworkOptimizationProblem implements HillClimbingProblem, Ge
     }
 
     /**
+     * Make a new neural network optimization
+     * @param examples the examples
+     * @param network the neural network
+     * @param measure the error measure
+     */
+    public NeuralNetworkOptimizationProblem(DataSet examples,
+             NeuralNetwork network, ErrorMeasure measure,
+             double neighborAmount,
+             double mutateAmount) {
+        eval = new NeuralNetworkEvaluationFunction(network, examples, measure);
+        crossover = new UniformCrossOver();
+        neighbor = new ContinuousAddOneNeighbor(neighborAmount);
+        mutate = new ContinuousAddOneMutation(mutateAmount);
+        dist = new NeuralNetworkWeightDistribution(network.getLinks().size());
+    }
+
+    /**
+     * Make a new neural network optimization
+     * @param examples the examples
+     * @param network the neural network
+     * @param measure the error measure
+     */
+    public NeuralNetworkOptimizationProblem(DataSet examples,
+             NeuralNetwork network, EvaluationFunction evalFunction,
+             double neighborAmount,
+             double mutateAmount) {
+        eval = evalFunction;
+        crossover = new UniformCrossOver();
+        neighbor = new ContinuousAddOneNeighbor(neighborAmount);
+        mutate = new ContinuousAddOneMutation(mutateAmount);
+        dist = new NeuralNetworkWeightDistribution(network.getLinks().size());
+    }
+
+    /**
      * @see opt.OptimizationProblem#value(opt.OptimizationData)
      */
     public double value(Instance d) {
